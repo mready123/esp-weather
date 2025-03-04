@@ -1,0 +1,56 @@
+!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dane pogodowe</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        table { width: 50%; margin: auto; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Dane pogodowe</h1>
+    <table>
+        <tr>
+            <th>ESP</th>
+            <th>Temperatura (°C)</th>
+            <th>Ciśnienie (hPa)</th>
+        </tr>
+        <tr>
+            <td>ESP1</td>
+            <td id="temp">Ładowanie...</td>
+            <td id="pressure">Ładowanie...</td>
+        </tr>
+    </table>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyDKUFPWpKPn2myQQQfRvysibTdJuolZf5g",
+            authDomain: "baza-dla-esp.firebaseapp.com",
+            databaseURL: "https://baza-dla-esp-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "twoja-baza",
+            storageBucket: "twoja-baza.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abc123"
+        };
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+
+        function updateData() {
+            database.ref("/ESP1/temperature").on("value", (snapshot) => {
+                document.getElementById("temp").innerText = snapshot.val() + " °C";
+            });
+
+            database.ref("/ESP1/pressure").on("value", (snapshot) => {
+                document.getElementById("pressure").innerText = snapshot.val() + " hPa";
+            });
+        }
+
+        updateData();
+    </script>
+</body>
+</html>
