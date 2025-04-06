@@ -2,15 +2,6 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Dane pogodowe</title>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-    <script>
-        // Konfiguracja Firebase
-        <!DOCTYPE html>
-<html lang="pl">
-<head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dane pogodowe</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -37,43 +28,29 @@
     </table>
 
     <script>
-        const firebaseConfig = {
+        var firebaseConfig = {
             apiKey: "AIzaSyDKUFPWpKPn2myQQQfRvysibTdJuolZf5g",
             authDomain: "baza-dla-esp.firebaseapp.com",
             databaseURL: "https://baza-dla-esp-default-rtdb.europe-west1.firebasedatabase.app",
             projectId: "baza-dla-esp",
             storageBucket: "baza-dla-esp.firebasestorage.app",
-        
+            messagingSenderId: "210905609737",
+            appId: "1:210905609737:web:498b0c19f9bba17460ead8"
         };
-
-        // Inicjalizacja Firebase
         firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+        var database = firebase.database();
 
-        // Pobieranie danych dla 3 ESP
-        function updateData(deviceId, elementId) {
-            db.ref(deviceId).on("value", (snapshot) => {
-                const data = snapshot.val();
-                document.getElementById(elementId).innerHTML = `
-                    <h3>${deviceId}</h3>
-                    <p>Temperatura: ${data.temperature}°C</p>
-                    <p>Ciśnienie: ${data.pressure} hPa</p>
-                `;
+        function updateData() {
+            database.ref("/ESP1/temperature").on("value", (snapshot) => {
+                document.getElementById("temp").innerText = snapshot.val() + " °C";
+            });
+
+            database.ref("/ESP1/pressure").on("value", (snapshot) => {
+                document.getElementById("pressure").innerText = snapshot.val() + " hPa";
             });
         }
 
-        // Pobieranie danych dla wszystkich ESP
-        window.onload = function () {
-            updateData("ESP1", "esp1");
-            updateData("ESP2", "esp2");
-            updateData("ESP3", "esp3");
-        };
+        updateData();
     </script>
-</head>
-<body>
-    <h1>Dane pogodowe z ESP32</h1>
-    <div id="esp1"></div>
-    <div id="esp2"></div>
-    <div id="esp3"></div>
 </body>
 </html>
