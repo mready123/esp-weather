@@ -1,56 +1,36 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dane pogodowe</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
-        table { width: 50%; margin: auto; border-collapse: collapse; }
-        th, td { border: 1px solid black; padding: 10px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Dane pogodowe ESP</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+    #data { background: white; padding: 20px; border-radius: 10px; }
+  </style>
 </head>
 <body>
-    <h1>Dane pogodowe</h1>
-    <table>
-        <tr>
-            <th>ESP</th>
-            <th>Temperatura (°C)</th>
-            <th>Ciśnienie (hPa)</th>
-        </tr>
-        <tr>
-            <td>ESP1</td>
-            <td id="temp">Ładowanie...</td>
-            <td id="pressure">Ładowanie...</td>
-        </tr>
-    </table>
+  <h1>Aktualne dane z ESP</h1>
+  <div id="data">Ładowanie danych...</div>
 
-    <script>
-        var firebaseConfig = {
-            apiKey: "AIzaSyDKUFPWpKPn2myQQQfRvysibTdJuolZf5g",
-            authDomain: "baza-dla-esp.firebaseapp.com",
-            databaseURL: "https://baza-dla-esp-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "baza-dla-esp",
-            storageBucket: "baza-dla-esp.firebasestorage.app",
-            messagingSenderId: "210905609737",
-            appId: "1:210905609737:web:498b0c19f9bba17460ead8"
-        };
-        firebase.initializeApp(firebaseConfig);
-        var database = firebase.database();
+  <script>
+    async function loadData() {
+      try {
+        const response = await fetch('http://twoj-host.pl/dane.json'); // <- zmień na swój hosting
+        const data = await response.json();
+        document.getElementById("data").innerHTML = `
+          <p>Urządzenie: ${data.device}</p>
+          <p>Temperatura: ${data.temp} &deg;C</p>
+          <p>Ciśnienie: ${data.pressure} hPa</p>
+          <p>Ostatnia aktualizacja: ${data.timestamp}</p>
+        `;
+      } catch (err) {
+        document.getElementById("data").innerText = "Błąd ładowania danych.";
+      }
+    }
 
-        function updateData() {
-            database.ref("/ESP1/temperature").on("value", (snapshot) => {
-                document.getElementById("temp").innerText = snapshot.val() + " °C";
-            });
-
-            database.ref("/ESP1/pressure").on("value", (snapshot) => {
-                document.getElementById("pressure").innerText = snapshot.val() + " hPa";
-            });
-        }
-
-        updateData();
-    </script>
+    loadData();
+    setInterval(loadData, 60000); // odśwież co minutę
+  </script>
 </body>
 </html>
+
