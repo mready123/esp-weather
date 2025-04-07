@@ -1,35 +1,21 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Dane z ESP32</title>
+  <title>Stacja pogodowa</title>
 </head>
 <body>
-  <h1>Dane pogodowe z ESP32</h1>
-  <div id="dane"></div>
+  <h1>Dane z ESP32</h1>
+  <div id="temp">Temperatura: </div>
+  <div id="pressure">Ciśnienie: </div>
 
   <script>
-    const id = "ESP1"; // zmień na ESP2, ESP3 itd. jeśli chcesz
-    const url = `https://brzoza.infinityfreeapp.com/dane_${id}.json`;
-
-    async function pobierzDane() {
-      try {
-        const res = await fetch(url);
-        const dane = await res.json();
-        document.getElementById("dane").innerHTML = `
-          <p>Urządzenie: ${dane.id}</p>
-          <p>Temperatura: ${dane.temperature} °C</p>
-          <p>Ciśnienie: ${dane.pressure} hPa</p>
-          <p>Czas: ${dane.time}</p>
-        `;
-      } catch (err) {
-        document.getElementById("dane").innerText = "Błąd podczas pobierania danych.";
-        console.error(err);
-      }
-    }
-
-    setInterval(pobierzDane, 10000);
-    pobierzDane();
+    fetch('https://raw.githubusercontent.com/mready123/eso-weather/main/dane.json')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("temp").innerText += data.ESP1.temperature + " °C";
+        document.getElementById("pressure").innerText += data.ESP1.pressure + " hPa";
+      });
   </script>
 </body>
 </html>
