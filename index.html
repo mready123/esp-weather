@@ -10,7 +10,7 @@
    <div id="pressure">Ciśnienie: </div>
  
    <script>
-     fetch('https://raw.githubusercontent.com/mready123/esp-weather/main/dane.json')
+     fetch('https://raw.githubusercontent.com/mready123/esp-weather/main/data.json')
        .then(res => res.json())
        .then(data => {
          document.getElementById("temperature").innerText += data.ESP1.temperature + " °C";
