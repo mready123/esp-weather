@@ -13,7 +13,6 @@
      fetch('https://raw.githubusercontent.com/mready123/eso-weather/main/dane.json')
        .then(res => res.json())
        .then(data => {
-         document.getElementById("temp").innerText += data.ESP1.temperature + " °C";
          document.getElementById("temperature").innerText += data.ESP1.temperature + " °C";
          document.getElementById("pressure").innerText += data.ESP1.pressure + " hPa";
        });
