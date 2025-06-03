@@ -21,8 +21,6 @@
         document.getElementById("temperature").innerText += data.temperature + " °C";
         document.getElementById("pressure").innerText += data.pressure + " hPa";
       })
-      .catch(err => {
-        console.error("❌ Błąd pobierania danych:", err);
       });
   </script>
 </body>
