@@ -10,7 +10,7 @@
   <div id="pressure">Ciśnienie: </div>
 
   <script>
-    fetch('data.json')  // Zakłada, że data.json jest w tym samym folderze co ten HTML
+    fetch('data.json')
       .then(res => {
         if (!res.ok) {
           throw new Error("Błąd HTTP: " + res.status);
@@ -21,6 +21,11 @@
         document.getElementById("temperature").innerText += data.temperature + " °C";
         document.getElementById("pressure").innerText += data.pressure + " hPa";
       })
+      .catch(error => {
+        console.error("❌ Błąd pobierania danych:", error);
+        document.getElementById("temperature").innerText += "Błąd";
+        document.getElementById("pressure").innerText += "Błąd";
+      });
   </script>
 </body>
 </html>
