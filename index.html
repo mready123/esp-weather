@@ -22,7 +22,6 @@
         document.getElementById("pressure").innerText += data.pressure + " hPa";
       })
       .catch(error => {
-        console.error("❌ Błąd pobierania danych:", error);
         document.getElementById("temperature").innerText += "Błąd";
         document.getElementById("pressure").innerText += "Błąd";
       });
