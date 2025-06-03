@@ -10,17 +10,16 @@
   <div id="pressure">Ciśnienie: </div>
 
   <script>
-    fetch('https://api.github.com/repos/mready123/esp-weather/contents/data.json')
+    fetch('https://mready123.github.io/esp-weather/data.json')
       .then(res => res.json())
-      .then(file => {
-        const content = atob(file.content);
-        const data = JSON.parse(content);
+      .then(data => {
         document.getElementById("temperature").innerText += data.temperature + " °C";
         document.getElementById("pressure").innerText += data.pressure + " hPa";
       })
       .catch(err => {
-        console.error("Błąd pobierania danych:", err);
+        console.error("❌ Błąd pobierania danych:", err);
       });
   </script>
 </body>
+</html>
 </html>
