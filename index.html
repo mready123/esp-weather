@@ -10,8 +10,13 @@
   <div id="pressure">Ciśnienie: </div>
 
   <script>
-    fetch('https://mready123.github.io/esp-weather/data.json')
-      .then(res => res.json())
+    fetch('data.json')  // Zakłada, że data.json jest w tym samym folderze co ten HTML
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("Błąd HTTP: " + res.status);
+        }
+        return res.json();
+      })
       .then(data => {
         document.getElementById("temperature").innerText += data.temperature + " °C";
         document.getElementById("pressure").innerText += data.pressure + " hPa";
@@ -21,5 +26,4 @@
       });
   </script>
 </body>
-</html>
 </html>
