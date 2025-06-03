@@ -1,21 +1,26 @@
 <!DOCTYPE html>
- <html>
- <head>
-   <meta charset="UTF-8">
-   <title>Stacja pogodowa</title>
- </head>
- <body>
-   <h1>Dane z ESP32</h1>
-   <div id="temperature">Temperatura: </div>
-   <div id="pressure">Ciśnienie: </div>
- 
-   <script>
-     fetch('https://raw.githubusercontent.com/mready123/esp-weather/main/data.json')
-       .then(res => res.json())
-       .then(data => {
-         document.getElementById("temperature").innerText += data.temperature + " °C";
-         document.getElementById("pressure").innerText += data.pressure + " hPa";
-       });
-   </script>
- </body>
- </html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Stacja pogodowa</title>
+</head>
+<body>
+  <h1>Dane z ESP32</h1>
+  <div id="temperature">Temperatura: </div>
+  <div id="pressure">Ciśnienie: </div>
+
+  <script>
+    fetch('https://api.github.com/repos/mready123/esp-weather/contents/data.json')
+      .then(res => res.json())
+      .then(file => {
+        const content = atob(file.content);
+        const data = JSON.parse(content);
+        document.getElementById("temperature").innerText += data.temperature + " °C";
+        document.getElementById("pressure").innerText += data.pressure + " hPa";
+      })
+      .catch(err => {
+        console.error("Błąd pobierania danych:", err);
+      });
+  </script>
+</body>
+</html>
